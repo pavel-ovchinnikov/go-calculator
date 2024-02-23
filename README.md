@@ -1,1 +1,1 @@
-# go-simple
+# go-calculator
