@@ -1,7 +1,10 @@
 package main
 
-import "log/slog"
+import (
+	"github.com/pavel-ovchinnikov/go-calculator/internal/application"
+)
 
 func main() {
-	slog.Info("Start server")
+	app := application.NewApplication()
+	app.Run()
 }
