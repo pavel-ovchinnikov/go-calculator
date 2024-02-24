@@ -1,5 +1,9 @@
 FROM golang:1.21 AS builder
 WORKDIR /go-calculator
 COPY . .
-RUN go build -o ./bin/app ./cmd/app/main.go
-CMD ["/go-calculator/bin/app"]
+RUN go get ./...
+RUN CGO_ENABLED=0 GOOS=linux go build -o ./bin/app ./cmd/app
+
+FROM alpine
+COPY --from=builder /go-calculator/bin/app /go-calculator/app
+CMD ["/go-calculator/app"]
