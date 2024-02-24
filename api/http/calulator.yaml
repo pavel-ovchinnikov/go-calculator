@@ -1,0 +1,38 @@
+openapi: 3.0.1
+info:
+  title: Sample REST server
+  description: TODO
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+paths:
+  /sum/{param_one}/{param_two}:
+    get:
+      summary: Get sum param_one and param_two
+      parameters:
+        - in: path
+          name: param_one
+          required: true
+          schema:
+            type: integer
+          description: <description>
+        - in: path
+          name: param_two
+          required: true
+          schema:
+            type: integer
+          description: <description>
+      responses:
+        '200':
+          description: <description>
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SumRes'  
+components:
+  schemas:
+    SumRes:
+      type: object
+      properties:
+        result:
+          type: integer
