@@ -2,11 +2,18 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
 )
 
-type SumHandler struct{}
+type SumService interface {
+	Sum(a, b int) (int, error)
+}
+
+type SumHandler struct {
+	sumService SumService
+}
 
 type SumRequest struct {
 	A int
@@ -22,11 +29,20 @@ func (h *SumHandler) Handler(w http.ResponseWriter, r *http.Request) {
 		slog.Error("%s", err)
 		return
 	}
-	slog.Info("Request: %+v", req)
+	slog.Info(fmt.Sprintf("Request: %v", req))
 
-	w.Write([]byte("sum handler"))
+	res, err := h.sumService.Sum(req.A, req.B)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(fmt.Sprintf("res: %v", res)))
 }
 
-func NewSumHandler() *SumHandler {
-	return &SumHandler{}
+func NewSumHandler(sumService SumService) *SumHandler {
+	return &SumHandler{
+		sumService: sumService,
+	}
 }

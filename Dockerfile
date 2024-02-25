@@ -1,7 +1,8 @@
 FROM golang:1.21 AS builder
 WORKDIR /go-calculator
-COPY . .
+COPY go.mod go.sum ./
 RUN go get ./...
+COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o ./bin/app ./cmd/app
 
 FROM alpine
