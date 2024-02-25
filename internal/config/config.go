@@ -6,12 +6,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type HttpConfig struct {
+type HttpServer struct {
 	Address string `yaml:"address"`
 }
 
 type Config struct {
-	HttpConfig HttpConfig `yaml:"http_config"`
+	HttpServer HttpServer `yaml:"http_server"`
 }
 
 func NewConfig(filename string) (*Config, error) {
@@ -25,5 +25,6 @@ func NewConfig(filename string) (*Config, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return cfg, nil
 }
