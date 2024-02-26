@@ -11,9 +11,10 @@ services:
     environment:
       - CONFIG_PATH=/go-calculator/config.yaml
     depends_on:
-      - db
+      postgresdb:
+        condition: service_healthy
   
-  db:
+  postgresdb:
     image: postgres:16.2
     environment:
       - POSTGRES_DB=calculator
@@ -26,15 +27,4 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    
-  pgadmin:
-    container_name: pgadmin4
-    image: dpage/pgadmin4:8
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: user@user.com
-      PGADMIN_DEFAULT_PASSWORD: user
-    ports:
-      - "5050:80"
-    logging:
-      driver: none
+  
