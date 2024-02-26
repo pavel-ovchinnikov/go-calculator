@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// connect database
-	dbURL := "postgres://user:password@db:5432/calculator"
+	dbURL := "postgres://user:password@postgresdb:5432/calculator"
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		slog.Error("connect database:", err)
